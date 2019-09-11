@@ -4,6 +4,8 @@ import project.yxm.travel.dao.UserDao;
 import project.yxm.travel.dao.impl.UserDaoImpl;
 import project.yxm.travel.domain.User;
 import project.yxm.travel.service.UserService;
+import project.yxm.travel.util.MailUtils;
+import project.yxm.travel.util.UuidUtil;
 
 public class UserServiceImpl implements UserService {
 
@@ -21,8 +23,14 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         //没有在数据库中找到用户说明该用户可以注册
-        userDao.saveUser(user);
         //2.保存用户信息
+        //设置激活码,唯一字符串,激活状态
+        user.setCode(UuidUtil.getUuid());
+        user.setStatus("N");
+        userDao.saveUser(user);
+        //发送激活邮件
+        String content = "<a href='http://localhost/travel/activeUserServlet?code=" + user.getCode() + "'>点击激活[旅游网]</a>";
+        MailUtils.sendMail(user.getEmail(), content, "激活邮件");
         return true;
     }
 
@@ -37,6 +45,23 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 激活用户
+     * @param code 激活码
+     **/
+    @Override
+    public boolean active(String code) {
+        //根据激活码查询用户对象
+        User user = userDao.findByCode(code);
+        if (user != null) {
+            //调用dao修改激活状态
+            userDao.updateStatus(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

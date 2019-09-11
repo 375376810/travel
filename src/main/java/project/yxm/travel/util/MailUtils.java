@@ -24,7 +24,6 @@ public final class MailUtils {
             final Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.host", "smtp.qq.com");
-
             // 发件人的账号
             props.put("mail.user", USER);
             //发件人的密码
@@ -46,16 +45,13 @@ public final class MailUtils {
             MimeMessage message = new MimeMessage(mailSession);
             // 设置发件人
             String username = props.getProperty("mail.user");
-            InternetAddress form = new InternetAddress(username);
-            message.setFrom(form);
-
+            InternetAddress from = new InternetAddress(username);
+            message.setFrom(from);
             // 设置收件人
             InternetAddress toAddress = new InternetAddress(to);
             message.setRecipient(Message.RecipientType.TO, toAddress);
-
             // 设置邮件标题
             message.setSubject(title);
-
             // 设置邮件的内容体
             message.setContent(text, "text/html;charset=UTF-8");
             // 发送邮件
@@ -67,9 +63,17 @@ public final class MailUtils {
         return false;
     }
 
-    public static void main(String[] args) throws Exception { // 做测试用
-        MailUtils.sendMail("itcast_xian@163.com", "你好，这是一封测试邮件，无需回复。", "测试邮件");
-        System.out.println("发送成功");
+    public static void main(String[] args) throws Exception {
+        // 做测试用
+        for (int i = 0; i < 20; i++) {
+            new Thread() {
+                @Override
+                public void run() {
+                    MailUtils.sendMail("37101@qq.com", "你好,这是一封垃圾邮件,收到请删除,呵呵...", "垃圾邮件");
+                    System.out.println("发送成功");
+                }
+            }.start();
+        }
     }
 
 

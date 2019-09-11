@@ -8,4 +8,7 @@ public interface UserService {
 
     /** 根据用户名在数据库中查找用户 **/
     Boolean isUserExist(String userName);
+
+    /** 激活用户 **/
+    boolean active(String code);
 }
