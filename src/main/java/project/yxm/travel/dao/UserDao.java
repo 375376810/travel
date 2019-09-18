@@ -19,4 +19,7 @@ public interface UserDao {
 
     /** 修改用户的激活状态 **/
     void updateStatus(User user);
+
+    /** 通过用户名和密码查询用户 **/
+    User findUserByNameAndPassword(String name, String password);
 }

@@ -1,7 +1,5 @@
 package project.yxm.travel.dao.impl;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
-
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -56,7 +54,7 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     /**
@@ -67,6 +65,23 @@ public class UserDaoImpl implements UserDao {
     public void updateStatus(User user) {
         String sql = "update tab_user set status='Y' where uid = ?";
         jdbcTemplate.update(sql,user.getUid());
+    }
+
+    /**
+     * 通过用户名和密码查询用户
+     * @param name
+     * @param password
+     **/
+    @Override
+    public User findUserByNameAndPassword(String name, String password) {
+        User user = null;
+        String sql = "select * from tab_user where username = ? and password = ?";
+        try {
+            user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), name, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
 }

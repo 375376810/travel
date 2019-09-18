@@ -65,7 +65,7 @@ public final class MailUtils {
 
     public static void main(String[] args) throws Exception {
         // 做测试用
-        for (int i = 0; i < 20; i++) {
+        /*for (int i = 0; i < 20; i++) {
             new Thread() {
                 @Override
                 public void run() {
@@ -73,7 +73,7 @@ public final class MailUtils {
                     System.out.println("发送成功");
                 }
             }.start();
-        }
+        }*/
     }
 
 
