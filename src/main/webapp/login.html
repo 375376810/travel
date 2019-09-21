@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>黑马旅游网-登录</title>
+    <title>星星旅游网-登录</title>
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -23,7 +23,7 @@
            //1.给登录按钮绑定单击事件
             $("#login").click(function () {
                 //2.发送ajax请求,提交表单
-                $.post("loginServlet",$("#loginForm").serialize(),function (data) {
+                $.post("user/login",$("#loginForm").serialize(),function (data) {
                     //data:{flag:false,errorMsg:''}
                     if (data.flag) {
                         //登录成功
@@ -49,7 +49,7 @@
     <div class="login-box">
         <div class="title">
             <img src="images/login_logo.png" alt="">
-            <span>欢迎登录黑马旅游账户</span>
+            <span>欢迎登录星星旅游账户</span>
         </div>
         <div class="login_inner">
 

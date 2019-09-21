@@ -55,7 +55,7 @@
             //1.获取输入的密码
             var password = $("#password").val();
             //2.定义正则
-            var reg_password = /^\w{8,20}$/;
+            var reg_password = /^\w{1,20}$/;
             //3.判断,给出提示
             var flag = reg_password.test(password);
             if (flag) {
@@ -123,7 +123,7 @@
         function checkBirthday() {
             var flag = $("#birthday").val() == "" ? false : true;
             if (!flag) {
-                alert("请正确选择出生日期")
+                alert("必须正确选择出生日期")
             }
             return flag;
         }
@@ -139,7 +139,7 @@
                 //1.发送数据到服务器
                 if (checkUsername() && checkPassword() && checkEmail() && checkBirthday()) {
                     //校验通过,发送ajax请求,提交表单数据
-                    $.post("registUserServlet", $(this).serialize(), function (data) {
+                    $.post("user/regist", $(this).serialize(), function (data) {
                         //处理服务器响应的数据data{flag:true,errorMsg:"注册失败"}
                         if (data.flag) {
                             //注册成功,跳转成功页面
