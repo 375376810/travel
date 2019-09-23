@@ -116,8 +116,8 @@ alter table tab_route_img add constraint FK_route_routeimg foreign key (rid)
       references tab_route (rid) on delete restrict on update restrict;
 	  
 	  
-insert  into `tab_category`(`cid`,`cname`) values (8,'全球自由行'),(5,'国内游'),(4,'处境游'),(7,'抱团定制'),(6,'港澳游'),(2,'酒店'),(1,'门票'),(3,'香港车票');
-insert  into `tab_seller`(`sid`,`sname`,`consphone`,`address`) values (1,'星星旅游网','12345678901','传智播客javaEE学院');
+insert  into `tab_category`(`cid`,`cname`) values (8,'全球自由行'),(5,'国内游'),(4,'出境游'),(7,'抱团定制'),(6,'港澳游'),(2,'酒店'),(1,'门票'),(3,'香港车票');
+insert  into `tab_seller`(`sid`,`sname`,`consphone`,`address`) values (1,'星星旅游网','12345678901','星星大街3号');
 
 
 /*Data for the table `tab_route` */
