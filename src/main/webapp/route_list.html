@@ -9,12 +9,17 @@
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" href="css/search.css">
     <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
     <script>
         $(function () {
             //拿到地址栏中的字符串
-            var search = location.search;
             //切割字符串,拿到等号后面的内容,就是cid
-            var cid = search.split("=")[1];
+            var cid = getParameter("cid");
+            var rname = getParameter("rname");
+            if (rname) {
+                //由于获取到的rname值为URI编码格式的串,因此需要解码为汉字
+                rname = window.decodeURIComponent(rname);
+            }
             //当页码加载完成之后,调用load方法,发送ajax请求加载数据
             loadPage(cid);
         });
@@ -41,18 +46,18 @@
                 //要显示10个页码,通过控制begin和end来实现前5后4的效果
                 var begin; //开始位置
                 var end; //结束位置
-                if (page.totalPage<10) {
+                if (page.totalPage < 10) {
                     //如果总页码不够10个
                     begin = 1;
                     end = page.totalPage;
                 } else {
                     //总页码超过10个,前5后4
                     begin = page.currentPage - 5;
-                    end = page.currentPage +4;
+                    end = page.currentPage + 4;
                     //如果前边不够5个,则后边需要补齐,共10个
-                    if (begin<1) {
+                    if (begin < 1) {
                         begin = 1;
-                        end = begin +9;
+                        end = begin + 9;
                     }
                     //如果后边不足4个,则前边补齐10个
                     if (end > page.totalPage) {
