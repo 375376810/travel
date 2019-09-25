@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter("/*")
+@WebFilter("/ll")
 public class CharacterFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         System.out.println("****** 处理post请求乱码专用过滤器init ******");

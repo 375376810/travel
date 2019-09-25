@@ -21,12 +21,16 @@
                 rname = window.decodeURIComponent(rname);
             }
             //当页码加载完成之后,调用load方法,发送ajax请求加载数据
-            loadPage(cid);
+            loadPage(cid, null, rname);
         });
 
-        function loadPage(cid, currentPage) {
+        function loadPage(cid, currentPage, rname) {
             //发送ajax请求,请求/rout/pageQuery,传递cid
-            $.get("route/pageQuery", {cid: cid, currentPage: currentPage}, function (page) {
+            $.get("route/pageQuery", {
+                cid: cid,
+                currentPage: currentPage,
+                rname: rname
+            }, function (page) {
                 //解析pageBean数据,展示到页面上.
                 //分页工具条数据展示
                 //1.展示总页码和总记录数
@@ -34,13 +38,13 @@
                 $("#totalPage").html(page.totalPage);
                 //2.展示分页页码
                 var lis = "";
-                var firstPage = "<li onclick='javascript:loadPage(" + cid + ")'><a href='javascript:void(0)'>首页</a></a></li>";
+                var firstPage = "<li onclick='javascript:loadPage(" + cid + ",1,\""+rname+"\")'><a href='javascript:void(0)'>首页</a></a></li>";
                 //计算上一页的页码
                 var preNum = page.currentPage - 1;
                 if (preNum <= 0) {
                     preNum = 1;
                 }
-                var prePage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + preNum + ")'><a href='javascript:void(0)'>上一页</a></li>";
+                var prePage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + preNum + ",\"" + rname + "\")'><a href='javascript:void(0)'>上一页</a></li>";
                 lis += firstPage;
                 lis += prePage;
                 //要显示10个页码,通过控制begin和end来实现前5后4的效果
@@ -70,10 +74,10 @@
                     var li;
                     if (page.currentPage == i) {
                         //如果是当前页码,加上样式
-                        li = "<li class='curPage' onclick='javascript:loadPage(" + cid + "," + i + ")'><a href='javascript:void(0)'>" + i + "</a></li>";
+                        li = "<li class='curPage' onclick='javascript:loadPage(" + cid + "," + i + ",\"" + rname + "\")'><a href='javascript:void(0)'>" + i + "</a></li>";
                     } else {
                         //否则不加样式
-                        li = "<li onclick='javascript:loadPage(" + cid + "," + i + ")'><a href='javascript:void(0)'>" + i + "</a></li>";
+                        li = "<li onclick='javascript:loadPage(" + cid + "," + i + ",\"" + rname + "\")'><a href='javascript:void(0)'>" + i + "</a></li>";
                     }
                     //拼接字符串
                     lis += li;
@@ -82,8 +86,8 @@
                 if (nextNum >= page.totalPage) {
                     nextNum = page.totalPage;
                 }
-                var nextPage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + nextNum + ")'><a href='javascript:void(0)'>下一页</a></li>";
-                var lastPage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + page.totalPage + ")'><a href='javascript:void(0)'>尾  页</a></li>";
+                var nextPage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + nextNum + ",\"" + rname + "\")'><a href='javascript:void(0)'>下一页</a></li>";
+                var lastPage = "<li class='threeword' onclick='javascript:loadPage(" + cid + "," + page.totalPage + ",\"" + rname + "\")'><a href='javascript:void(0)'>尾  页</a></li>";
                 lis += nextPage;
                 lis += lastPage;
                 //将lis内容设置到ul

@@ -28,6 +28,9 @@ public class RouteServlet extends BaseServlet {
         String currentPageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
         String cidStr = request.getParameter("cid");
+        String rname = request.getParameter("rname");
+        //处理从页面返回的乱码值问题
+        rname = new String(rname.getBytes("iso-8859-1"), "utf-8");
         //2.将页面传回的值转换为Int型
         int currentPage = 0;
         int pageSize = 0;
@@ -45,11 +48,15 @@ public class RouteServlet extends BaseServlet {
             pageSize = 5;
         }
         //类别id
-        if (!StringUtils.isEmpty(cidStr)) {
+        if (!StringUtils.isEmpty(cidStr) && !"null".equals(cidStr)) {
             cid = Integer.parseInt(cidStr);
         }
+        //rname搜索关键字
+        if (StringUtils.isEmpty(rname) || "null".equals(rname)) {
+            rname = null;
+        }
         //3.调用service查询pageBean对象
-        PageBean<Route> pageBean = routeservice.pageQuery(cid,pageSize,currentPage);
+        PageBean<Route> pageBean = routeservice.pageQuery(cid, pageSize, currentPage, rname);
 
         //4.将pageBean对象序列化并返回
         writeJsonToReponse(pageBean, response);
