@@ -40,7 +40,6 @@ public class RouteDaoImpl implements RouteDao {
 
     /**
      * 根据cid,start,pageSize查询当前页的数据集合
-     *
      * @param cid      分类id
      * @param start    起始
      * @param pageSize 每页显示的数目
@@ -65,6 +64,17 @@ public class RouteDaoImpl implements RouteDao {
         params.add(pageSize);
         sql = sb.toString();
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Route>(Route.class), params.toArray());
+    }
+
+    /**
+     * 根据id查询route
+     * @param rid
+     * @return
+     */
+    @Override
+    public Route findOnne(int rid) {
+        String sql = "select * from tab_route where rid = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<Route>(Route.class),rid);
     }
 
 }

@@ -12,4 +12,11 @@ public interface Routeservice {
      * @param currentPage 当前页码
      */
     PageBean<Route> pageQuery(int cid, int pageSize, int currentPage,String rname);
+
+    /**
+     * 通过rid查询旅游路线详细信息
+     * @param rid
+     * @return
+     */
+    Route findOne(String rid);
 }

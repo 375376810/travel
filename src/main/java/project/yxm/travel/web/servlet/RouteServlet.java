@@ -5,7 +5,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +59,17 @@ public class RouteServlet extends BaseServlet {
 
         //4.将pageBean对象序列化并返回
         writeJsonToReponse(pageBean, response);
+    }
 
+    /**
+     * 根据id查询一个旅游线路的详细信息
+     * @param request
+     * @param response
+     */
+    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String rid = request.getParameter("rid");
+        Route route = routeservice.findOne(rid);
+        writeJsonToReponse(route, response);
     }
 
 }
