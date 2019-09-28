@@ -11,13 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import project.yxm.travel.domain.PageBean;
 import project.yxm.travel.domain.Route;
+import project.yxm.travel.domain.User;
+import project.yxm.travel.service.FavorateService;
 import project.yxm.travel.service.Routeservice;
+import project.yxm.travel.service.impl.FavoriteServiceImpl;
 import project.yxm.travel.service.impl.RouteServiceImpl;
 
 @WebServlet("/route/*")
 public class RouteServlet extends BaseServlet {
 
     Routeservice routeservice = new RouteServiceImpl();
+    FavorateService favorateService = new FavoriteServiceImpl();
 
     /**
      * 分页查询
@@ -70,6 +74,31 @@ public class RouteServlet extends BaseServlet {
         String rid = request.getParameter("rid");
         Route route = routeservice.findOne(rid);
         writeJsonToReponse(route, response);
+    }
+
+
+    /**
+     * 查询当前登录用户是否已经收藏该旅游线路
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void isFavorate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取线路id
+        String rid = request.getParameter("rid");
+        //获取当前登录的用户user
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;
+        if (user == null) {
+            //未登录
+            uid = 0;
+        } else {
+            uid = user.getUid();
+        }
+        //调用FavoriteService查询是否收藏
+        boolean favorate = favorateService.isFavorate(Integer.parseInt(rid), uid);
+        //写回客户端
+        writeJsonToReponse(favorate, response);
     }
 
 }
