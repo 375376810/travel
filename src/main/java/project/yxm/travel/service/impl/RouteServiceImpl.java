@@ -2,9 +2,11 @@ package project.yxm.travel.service.impl;
 
 import java.util.List;
 
+import project.yxm.travel.dao.FavoriteDao;
 import project.yxm.travel.dao.RouteDao;
 import project.yxm.travel.dao.RouteImgDao;
 import project.yxm.travel.dao.SellerDao;
+import project.yxm.travel.dao.impl.FavoriteDaoImpl;
 import project.yxm.travel.dao.impl.RouteDaoImpl;
 import project.yxm.travel.dao.impl.RouteImgDaoImpl;
 import project.yxm.travel.dao.impl.SellerDaoImpl;
@@ -19,6 +21,7 @@ public class RouteServiceImpl implements Routeservice {
     private RouteDao routeDao = new RouteDaoImpl();
     private RouteImgDao routeImgDao = new RouteImgDaoImpl();
     private SellerDao sellerDao = new SellerDaoImpl();
+    private FavoriteDao favoriteDao = new FavoriteDaoImpl();
 
     /**
      * 分页查询
@@ -65,7 +68,21 @@ public class RouteServiceImpl implements Routeservice {
         //4.根据route的sid查询商家信息
         Seller seller = sellerDao.findBySid(route.getSid());
         route.setSeller(seller);
+        //查询收藏次数
+        int count = favoriteDao.findCountByRid(route.getRid());
+        route.setCount(count);
         return route;
+    }
+
+    /**
+     * 添加收藏
+     *
+     * @param uid
+     * @param rid
+     */
+    @Override
+    public void add(int uid, String rid) {
+        favoriteDao.add(uid, Integer.parseInt(rid));
     }
 
 }

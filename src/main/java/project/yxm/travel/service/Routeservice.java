@@ -19,4 +19,11 @@ public interface Routeservice {
      * @return
      */
     Route findOne(String rid);
+
+    /**
+     * 添加收藏
+     * @param uid
+     * @param rid
+     */
+    void add(int uid, String rid);
 }

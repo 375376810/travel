@@ -40,10 +40,8 @@
             <div class="pros_price">
                 <p class="price"><strong id="price">xxx</strong><span>起</span></p>
                 <p class="collect">
-                    <a class="btn" id="favorate"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
-                    <!--<a class="btn already" disabled="disabled"><i
-                            class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>-->
-                    <span>已收藏100次</span>
+                    <a class="btn" id="favorate" onclick="addFavorite();"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
+                    <span id="favoriteCount" ></span>
                 </p>
             </div>
         </div>
@@ -163,6 +161,7 @@
             $("#sname").html(route.seller.sname);
             $("#consphone").html(route.seller.consphone);
             $("#address").html(route.seller.address);
+            $("#favoriteCount").html("已收藏"+route.count+"次");
             //图片展示
             var ddstr = '<a class="up_img up_img_disable"></a>';
             //便利routeList
@@ -191,15 +190,32 @@
             if (flag) {
                 //用户已经收藏过了,設置样式
                 $("#favorate").addClass("btn already");
-                $("#favorate").prop("disabled",disabled);
+                $("#favorate").attr("disabled","disabled");
+                //删除按钮的点击事件
+                $("#favorate").removeAttr("onclick");
             } else {
                 //用户没有收藏
 
             }
-            
         });
 
     });
+    
+    function addFavorite() {
+        var rid = getParameter("rid");
+        //判断用户是否登录
+        $.get("user/findOne",{},function (user) {
+            if (user) {
+                //已登录
+                $.get("route/addFavorite",{rid:rid},function () {
+                    location.reload();
+                })
+            } else {
+                alert("您尚未登陆,请登录");
+                location.href = "http://localhost/travel/login.html";
+            }
+        });
+    }
 
 </script>
 </body>

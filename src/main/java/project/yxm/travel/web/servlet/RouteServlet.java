@@ -101,4 +101,26 @@ public class RouteServlet extends BaseServlet {
         writeJsonToReponse(favorate, response);
     }
 
+    /**
+     * 点击添加收藏线路
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void addFavorite(HttpServletRequest request, HttpServletResponse response) {
+        //获取线路rid
+        String rid = request.getParameter("rid");
+        //获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;
+        if (user == null) {
+            //未登录
+            return;
+        } else {
+            //已登录
+            uid = user.getUid();
+        }
+        routeservice.add(uid, rid);
+    }
+
 }
